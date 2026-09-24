@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MSN Messenger</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:#5a7edc;font:11px Tahoma,"Segoe UI",Verdana,sans-serif;color:#000;display:flex;align-items:center;justify-content:center}
+.win{width:474px;height:560px;background:#ece9d8;border:1px solid #0831d9;border-radius:8px 8px 0 0;display:flex;flex-direction:column;box-shadow:0 4px 18px rgba(0,0,0,.5)}
+.title{height:30px;background:linear-gradient(#0997ff,#0053ee 8%,#0050ee 40%,#06f 88%,#06f 93%,#005bff 95%,#003dd7);border-radius:7px 7px 0 0;display:flex;align-items:center;padding:0 5px;color:#fff;font-weight:bold;font-size:13px;text-shadow:1px 1px #0f1089}
+.title .t{flex:1;margin-left:6px;white-space:nowrap;overflow:hidden}
+.tb{width:21px;height:21px;border:1px solid #fff;border-radius:3px;margin-left:2px;background:linear-gradient(135deg,#5e8df5,#2358d6);text-align:center;line-height:17px;font-size:12px}
+.tb.x{background:linear-gradient(135deg,#e8846b,#c5391b)}
+.menu{height:20px;background:#ece9d8;display:flex;align-items:center;padding-left:4px;font-size:11px}
+.menu span{padding:2px 6px}
+.tools{height:58px;background:linear-gradient(#fff,#e8eefc);border-bottom:1px solid #b5c4e6;display:flex;align-items:center;padding:0 6px}
+.tools .b{width:58px;text-align:center;font-size:10.5px;color:#222}
+.tools .b i{display:block;font-style:normal;font-size:24px;line-height:28px}
+.tools .logo{margin-left:auto;font:italic bold 15px Verdana;color:#2a55c0;padding-right:6px}
+.main{flex:1;display:flex;gap:6px;padding:6px 6px 0;background:#e8eefc;min-height:0}
+.left{flex:1;display:flex;flex-direction:column;min-width:0}
+.right{width:128px}
+.to{height:22px;background:#fff;border:1px solid #9fb2d9;border-bottom:none;border-radius:4px 4px 0 0;padding:4px 6px}
+.to b{color:#f07800}
+.chat{flex:1;background:#fff;border:1px solid #9fb2d9;padding:6px 22px 6px 8px;overflow:hidden;font-size:12.5px;position:relative;margin-bottom:6px}
+.chat p{margin:0 0 4px;padding-bottom:3px;border-bottom:1px solid #e6e6e6;width:95%}
+.chat p.err{color:#c04a10}
+.chat p.err:before{content:"✉";color:#d33;margin-right:4px}
+.sb{position:absolute;right:0;top:0;bottom:0;width:16px;background:#f1f1ec;border-left:1px solid #ddd}
+.sb i{position:absolute;left:0;right:0;height:16px;background:#dfe8f7;border:1px solid #9fb2d9;font-style:normal;font-size:8px;text-align:center;line-height:14px;color:#3b5aa8}
+.sb .th{top:16px;bottom:16px;height:auto;background:linear-gradient(90deg,#c1d3fb,#e6edfe)}
+.avatar{background:#fff;border:1px solid #9fb2d9;border-radius:4px;height:150px;display:flex;align-items:center;justify-content:center;font-size:74px}
+.a1{background:#ffe2c8}
+.inp{background:#e8eefc;padding:0 6px 6px;display:flex;gap:6px}
+.inp .l{flex:1;display:flex;flex-direction:column;min-width:0}
+.fmt{height:28px;display:flex;align-items:center;gap:8px;border:1px solid #9fb2d9;border-bottom:none;background:linear-gradient(#f6f9ff,#dbe5f9);border-radius:4px 4px 0 0;padding:0 6px;font-size:14px}
+.fmt b{font:bold 17px Times,serif;color:#1a3a9a}
+.fmt .act{border:1px solid #6a86c7;border-radius:3px;padding:0 3px;background:#fff}
+.box{height:112px;display:flex;border:1px solid #9fb2d9;background:#fff}
+.side{width:22px;background:#e0e8f8;border-right:1px solid #c5d2ee;font-size:14px;padding:3px 0;text-align:center;line-height:22px}
+#msg{flex:1;border:0;outline:0;resize:none;font:13px Tahoma,"Malgun Gothic",sans-serif;padding:4px 6px;background:#fff;color:#000;min-width:0}
+.send{align-self:flex-end;margin:0 6px 6px 0;width:54px;height:36px;border:1px solid #9aa6bd;border-radius:3px;background:linear-gradient(#fdfdfd,#dfe4ee);color:#8a94a8;font-size:12.5px}
+.bot{height:24px;border:1px solid #9fb2d9;border-top:none;background:linear-gradient(#f6f9ff,#dbe5f9);display:flex;justify-content:flex-end;align-items:center;gap:6px;padding-right:8px;font-size:13px}
+.bot b{font:bold 15px Times,serif;color:#1a3a9a;border:1px solid #6a86c7;padding:0 3px;background:#fff}
+.right2{width:128px;display:flex;align-items:flex-end}
+.right2 .avatar{width:100%;height:112px;font-size:60px}
+.status{height:16px;background:#ece9d8;border-top:1px solid #c9c5b0}
+@media(max-width:480px){.win{width:100%;height:100%;border-radius:0}.right,.right2{display:none}}
+</style>
+</head>
+<body>
+<div class="win">
+  <div class="title"><span>💬</span><span class="t">Thaimsn.net ไอ! - Conversation</span><span class="tb">_</span><span class="tb">□</span><span class="tb x">✕</span></div>
+  <div class="menu"><span>File</span><span>Edit</span><span>Actions</span><span>Tools</span><span>Help</span><span>Plus!</span></div>
+  <div class="tools">
+    <div class="b"><i>👥</i>Invite</div><div class="b"><i>🖼️</i>Send Files</div><div class="b"><i>📹</i>Video</div><div class="b"><i>🎧</i>Voice</div><div class="b"><i>🎵</i>Activities</div><div class="b"><i>🃏</i>Games</div>
+    <div class="logo">msn</div>
+  </div>
+  <div class="main">
+    <div class="left">
+      <div class="to">To: <b>Thaimsn.net ไอ!</b> &lt;lightty@hotmail.com&gt;</div>
+      <div class="chat">
+        <p>You have just sent a Nudge!</p>
+        <p class="err">You may not send a Nudge that often.</p>
+        <p class="err">You may not send a Nudge that often.</p>
+        <p class="err">You may not send a Nudge that often.</p>
+        <p>You have just sent a Nudge!</p>
+        <p class="err">You may not send a Nudge that often.</p>
+        <p class="err">You may not send a Nudge that often.</p>
+        <p>You have just sent a Nudge!</p>
+        <div class="sb"><i style="top:0">▲</i><i class="th"></i><i style="bottom:0">▼</i></div>
+      </div>
+    </div>
+    <div class="right"><div class="avatar a1">🐷</div></div>
+  </div>
+  <div class="inp">
+    <div class="l">
+      <div class="fmt"><b>A</b><span>🙂</span><span>🔊</span><span>😉</span><span>🖼️</span><span>🎁</span><span class="act">📳</span></div>
+      <div class="box">
+        <div class="side">🦋<br>💬</div>
+        <textarea id="msg" spellcheck="false" autofocus></textarea>
+        <button class="send" type="button">Send</button>
+      </div>
+      <div class="bot"><span>✍️</span><b>A</b></div>
+    </div>
+    <div class="right2"><div class="avatar">🧒</div></div>
+  </div>
+  <div class="status"></div>
+</div>
+<script>
+var m=document.getElementById('msg');m.focus();
+document.addEventListener('click',function(){m.focus()});
+</script>
+</body>
+</html>
