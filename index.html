@@ -24,7 +24,11 @@ body{background:#5a7edc;font:11px Tahoma,"Segoe UI",Verdana,sans-serif;color:#00
 .right{width:128px}
 .to{height:22px;background:#fff;border:1px solid #9fb2d9;border-bottom:none;border-radius:4px 4px 0 0;padding:4px 6px}
 .to b{color:#f07800}
-.chat{flex:1;background:#fff;border:1px solid #9fb2d9;padding:6px 22px 6px 8px;overflow:hidden;font-size:12.5px;position:relative;margin-bottom:6px}
+.chat{flex:1;background:#fff;border:1px solid #9fb2d9;padding:8px;overflow-y:auto;font-size:13px;display:flex;flex-direction:column;margin-bottom:6px;min-height:0}
+.chat::-webkit-scrollbar{width:16px}.chat::-webkit-scrollbar-track{background:#f1f1ec;border-left:1px solid #ddd}.chat::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#c1d3fb,#e6edfe);border:1px solid #9fb2d9}
+.msg{align-self:flex-end;max-width:85%;display:flex;align-items:flex-end;gap:5px;margin-bottom:7px;flex-shrink:0}
+.msg time{font-size:10px;color:#7a8299;white-space:nowrap}
+.bubble{background:#cfe3ff;border:1px solid #9fc0f0;border-radius:12px 12px 2px 12px;padding:6px 10px;line-height:1.4;white-space:pre-wrap;word-break:break-word}
 .chat p{margin:0 0 4px;padding-bottom:3px;border-bottom:1px solid #e6e6e6;width:95%}
 .chat p.err{color:#c04a10}
 .chat p.err:before{content:"✉";color:#d33;margin-right:4px}
@@ -42,6 +46,8 @@ body{background:#5a7edc;font:11px Tahoma,"Segoe UI",Verdana,sans-serif;color:#00
 .side{width:22px;background:#e0e8f8;border-right:1px solid #c5d2ee;font-size:14px;padding:3px 0;text-align:center;line-height:22px}
 #msg{flex:1;border:0;outline:0;resize:none;font:13px Tahoma,"Malgun Gothic",sans-serif;padding:4px 6px;background:#fff;color:#000;min-width:0}
 .send{align-self:flex-end;margin:0 6px 6px 0;width:54px;height:36px;border:1px solid #9aa6bd;border-radius:3px;background:linear-gradient(#fdfdfd,#dfe4ee);color:#8a94a8;font-size:12.5px}
+.send.on{background:linear-gradient(#7db9ff,#2f7be8 55%,#1f66d0);border-color:#17529f;color:#fff;text-shadow:0 1px 1px #0d3a80;cursor:pointer}
+.send.on:active{background:linear-gradient(#1f66d0,#2f7be8)}
 .bot{height:24px;border:1px solid #9fb2d9;border-top:none;background:linear-gradient(#f6f9ff,#dbe5f9);display:flex;justify-content:flex-end;align-items:center;gap:6px;padding-right:8px;font-size:13px}
 .bot b{font:bold 15px Times,serif;color:#1a3a9a;border:1px solid #6a86c7;padding:0 3px;background:#fff}
 .right2{width:128px;display:flex;align-items:flex-end}
@@ -61,16 +67,7 @@ body{background:#5a7edc;font:11px Tahoma,"Segoe UI",Verdana,sans-serif;color:#00
   <div class="main">
     <div class="left">
       <div class="to">To: <b>Thaimsn.net ไอ!</b> &lt;lightty@hotmail.com&gt;</div>
-      <div class="chat">
-        <p>You have just sent a Nudge!</p>
-        <p class="err">You may not send a Nudge that often.</p>
-        <p class="err">You may not send a Nudge that often.</p>
-        <p class="err">You may not send a Nudge that often.</p>
-        <p>You have just sent a Nudge!</p>
-        <p class="err">You may not send a Nudge that often.</p>
-        <p class="err">You may not send a Nudge that often.</p>
-        <p>You have just sent a Nudge!</p>
-        <div class="sb"><i style="top:0">▲</i><i class="th"></i><i style="bottom:0">▼</i></div>
+      <div class="chat" id="chat">
       </div>
     </div>
     <div class="right"><div class="avatar a1">🐷</div></div>
@@ -81,7 +78,7 @@ body{background:#5a7edc;font:11px Tahoma,"Segoe UI",Verdana,sans-serif;color:#00
       <div class="box">
         <div class="side">🦋<br>💬</div>
         <textarea id="msg" spellcheck="false" autofocus></textarea>
-        <button class="send" type="button">Send</button>
+        <button class="send" id="send" type="button" disabled>Send</button>
       </div>
       <div class="bot"><span>✍️</span><b>A</b></div>
     </div>
@@ -90,8 +87,22 @@ body{background:#5a7edc;font:11px Tahoma,"Segoe UI",Verdana,sans-serif;color:#00
   <div class="status"></div>
 </div>
 <script>
-var m=document.getElementById('msg');m.focus();
+var m=document.getElementById('msg'),b=document.getElementById('send'),c=document.getElementById('chat');
+function upd(){var on=m.value.trim().length>0;b.disabled=!on;b.classList.toggle('on',on)}
+function send(){
+  var t=m.value.trim();if(!t)return;
+  var d=document.createElement('div');d.className='msg';
+  var tm=document.createElement('time'),n=new Date();
+  tm.textContent=(n.getHours()<12?'오전 ':'오후 ')+((n.getHours()%12)||12)+':'+String(n.getMinutes()).padStart(2,'0');
+  var bb=document.createElement('div');bb.className='bubble';bb.textContent=t;
+  d.appendChild(tm);d.appendChild(bb);c.appendChild(d);
+  c.scrollTop=c.scrollHeight;m.value='';upd();m.focus();
+}
+m.addEventListener('input',upd);
+m.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();send()}});
+b.addEventListener('click',send);
 document.addEventListener('click',function(){m.focus()});
+m.focus();
 </script>
 </body>
 </html>
