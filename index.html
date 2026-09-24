@@ -27,6 +27,8 @@ body{background:#5a7edc;font:11px Tahoma,"Segoe UI",Verdana,sans-serif;color:#00
 .chat{flex:1;background:#fff;border:1px solid #9fb2d9;padding:8px;overflow-y:auto;font-size:13px;display:flex;flex-direction:column;margin-bottom:6px;min-height:0}
 .chat::-webkit-scrollbar{width:16px}.chat::-webkit-scrollbar-track{background:#f1f1ec;border-left:1px solid #ddd}.chat::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#c1d3fb,#e6edfe);border:1px solid #9fb2d9}
 .msg{align-self:flex-end;max-width:85%;display:flex;align-items:flex-end;gap:5px;margin-bottom:7px;flex-shrink:0}
+.meta{display:flex;flex-direction:column;align-items:flex-end;line-height:1.25}
+.unread{font-size:11px;font-weight:bold;color:#e8a500}
 .msg time{font-size:10px;color:#7a8299;white-space:nowrap}
 .bubble{background:#cfe3ff;border:1px solid #9fc0f0;border-radius:12px 12px 2px 12px;padding:6px 10px;line-height:1.4;white-space:pre-wrap;word-break:break-word}
 .chat p{margin:0 0 4px;padding-bottom:3px;border-bottom:1px solid #e6e6e6;width:95%}
@@ -95,7 +97,7 @@ function send(){
   var tm=document.createElement('time'),n=new Date();
   tm.textContent=(n.getHours()<12?'오전 ':'오후 ')+((n.getHours()%12)||12)+':'+String(n.getMinutes()).padStart(2,'0');
   var bb=document.createElement('div');bb.className='bubble';bb.textContent=t;
-  d.appendChild(tm);d.appendChild(bb);c.appendChild(d);
+  var mt=document.createElement('div');mt.className='meta';var u=document.createElement('span');u.className='unread';u.textContent='1';mt.appendChild(u);mt.appendChild(tm);d.appendChild(mt);d.appendChild(bb);c.appendChild(d);
   c.scrollTop=c.scrollHeight;m.value='';upd();m.focus();
 }
 m.addEventListener('input',upd);
